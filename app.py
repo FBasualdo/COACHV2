@@ -29,52 +29,67 @@ def save_conversation_state(conversation_state):
 def get_response_second_phase(status:int, conversation:list, last_ai_question:str, user_input:str, interaction_counter:int, flow_counter:int):
     keys = list(question_list_second_phase.keys())
     # print(keys)
-    if status == 2:
-        match flow_counter:
-            case -1:
-                # print("ACACACA EN -1")
-                ai_question = keys[0]
-                flow_counter = 0
-          
-            case _:
-                conversation.append({'Ai': last_ai_question, 'patient': user_input})
-                is_ready = ready_bot.run_chain(question= last_ai_question, conversation= conversation_parser(conversation), answer= user_input)
-                print(is_ready)
-                if is_ready.lower() == 'yes':
-                    conversation = []
-                    interaction_counter = 0
-                    if flow_counter + 1 < len(keys) - 1:
-                        flow_counter += 1
-                    
-                        bullet_count = words_count(user_input)
-                        bullet_list = bullet_bot.run_chain(bullet= bullet_count, message= user_input)
-                        bullet_list = bullet_bot_2.run_chain(bullet= bullet_list, message= user_input)
-                        ai_question = general_bot.run_chain(instruction= question_list_second_phase[keys[flow_counter]], message= user_input)
-                    else:
-                        
-                        status = 3
-                        flow_counter = -1
-                else:
-                    interaction_counter += 1
-                    ai_question = question_maker.run_chain(conversation= conversation_parser(conversation))
+    match flow_counter:
+        case -1:
+            # print("ACACACA EN -1")
+            ai_question = keys[0]
+            flow_counter = 0
             
-                if flow_counter == 1 and is_ready.lower() == 'yes':
-                    aknowledge_bot = Acknowledge_Chain(llm= gpt3(), template= get_aknowledge_template())
-                    acknowledge = aknowledge_bot.run_chain(last_message= user_input, bullet= bullet_list)
-                    ai_question = f"""{acknowledge} \n {bullet_list} \n {ai_question}"""
-                elif is_ready.lower() == 'yes':
-                    ai_question = f"""{bullet_list} \n {ai_question}"""
-                else:
-                    ai_question = f"""{ai_question}"""
+        case _:
+            conversation.append({'Ai': last_ai_question, 'patient': user_input})
+            is_ready = ready_bot.run_chain(question= last_ai_question, conversation= conversation_parser(conversation), answer= user_input)
+            print(is_ready)
+            if is_ready.lower() == 'yes':
+                conversation = []
+                interaction_counter = 0
+                if flow_counter + 1 <= len(keys) - 1:
+                    flow_counter += 1
 
-        save_conversation_state({
-            'status': status,
-            'conversation': conversation,
-            'last_ai_question': ai_question,
-            'user_input': user_input,
-            'interaction_counter': interaction_counter,
-            'flow_counter': flow_counter
-        })
+                    print("THIS IS USER INPUT", user_input)
+                    bullet_count = words_count(user_input)
+                    print("THIS IS BULLET COUNT", bullet_count)
+                    bullet_list = bullet_bot.run_chain(bullet= bullet_count, message= user_input)
+                    print("THIS IS BULLET LIST 1", bullet_list)
+                    bullet_list = bullet_bot_2.run_chain(bullet= bullet_list, message= user_input)
+                    print("THIS IS BULLET LIST 2", bullet_list)
+                    ai_question = general_bot.run_chain(instruction= question_list_second_phase[keys[flow_counter]], message= user_input)
+                else:
+                    status = 3
+                    flow_counter = -1
+                    bullet_count = words_count(user_input)
+                    bullet_list = bullet_bot.run_chain(bullet= bullet_count, message= user_input)
+                    bullet_list = bullet_bot_2.run_chain(bullet= bullet_list, message= user_input)
+                    ai_question = f"""{bullet_list}"""
+
+                    return  save_conversation_state({
+                            'status': status,
+                            'conversation': conversation,
+                            'last_ai_question': ai_question,
+                            'user_input': user_input,
+                            'interaction_counter': interaction_counter,
+                            'flow_counter': flow_counter
+    })
+            else:
+                interaction_counter += 1
+                ai_question = question_maker.run_chain(conversation= conversation_parser(conversation))
+        
+            if flow_counter == 1 and is_ready.lower() == 'yes':
+                aknowledge_bot = Acknowledge_Chain(llm= gpt3(), template= get_aknowledge_template())
+                acknowledge = aknowledge_bot.run_chain(last_message= user_input, bullet= bullet_list)
+                ai_question = f"""{acknowledge} \n {bullet_list} \n {ai_question}"""
+            elif is_ready.lower() == 'yes':
+                ai_question = f"""{bullet_list} \n {ai_question}"""
+            else:
+                ai_question = f"""{ai_question}"""
+
+    save_conversation_state({
+        'status': status,
+        'conversation': conversation,
+        'last_ai_question': ai_question,
+        'user_input': user_input,
+        'interaction_counter': interaction_counter,
+        'flow_counter': flow_counter
+    })
 
 
 def get_response_third_phase(outcome: str, status:int, conversation:list, last_ai_question:str, user_input:str, interaction_counter:int, flow_counter:int):
@@ -111,8 +126,11 @@ def get_response_third_phase(outcome: str, status:int, conversation:list, last_a
                     bullet_count = words_count(user_input)
                     bullet_list = bullet_bot.run_chain(bullet= bullet_count, message= user_input)
                     bullet_list = bullet_bot_2.run_chain(bullet= bullet_list, message= user_input)
-                    ai_question = general_2_bot.run_chain(outcome= outcome, instruction= question_list_second_phase[keys[flow_counter]], message= user_input)
-
+                    formatted_question = question_list_third_phase[keys[flow_counter]].replace("{outcome}", outcome)
+                    print("THIS IS FORMATTED QUESTION", formatted_question)
+                    ai_question = general_bot.run_chain(instruction= formatted_question, message= user_input)
+                    flow_counter += 1
+                    print("THIS IS FLOW COUNTER", flow_counter)
                 else:
                     interaction_counter += 1
                     ai_question = question_maker.run_chain(conversation= conversation_parser(conversation))
@@ -144,7 +162,7 @@ def run():
                 conversation_state = json.load(file)
         except FileNotFoundError:
             conversation_state = {
-                'status': 3,
+                'status': 2,
                 'conversation': [],
                 'last_ai_question': '',
                 'user_input': '',

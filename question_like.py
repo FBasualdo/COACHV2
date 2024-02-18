@@ -80,7 +80,8 @@ Extract the outcome the client wants and return it.  Follow this guidelines:
 """,
 "Just to confirm, the outcome that you want to achieve/explore in this session is {outcome}? y/n":"",
 "Ok, thanks for clarifying it. So..." : "",
-"Regarding {outcome}, where are you in way to achieve that?":
+
+"Regarding [outcome], where are you in way to achieve that?":
 """
 You have to ask the following question: 
 Regarding [outcome], where are you in way to achieve that?
@@ -88,17 +89,30 @@ The outcome of the session was previously said by the client in the session and 
 {outcome}
 ".
 Only ask this question.""",
-"What gaps, barriers or underlying issues might need to be addressed to get {outcome}?":
+"What gaps, barriers or underlying issues might need to be addressed to get [outcome]?":
 """
 You have to ask the following question: 
 What gaps, barriers or underlying issues might need to be addressed to get [outcome]? 
 The outcome of the session was previously said by the client in the session and is "
 {outcome}
 ".
-
 Only ask this question.
 """,
-
+"what have you done so far? ": #ASK ABOUT THIS
+"""
+You have to ask the following question: 
+"What have you done so far? "
+The outcome of the session was previously said by the client in the session and is "
+{outcome}
+""",
+"If everything was exactly how you wanted it to be, what would you be experiencing?":
+"""
+You have to ask the following question:
+"If everything was exactly how you wanted it to be, what would you be experiencing?"
+The outcome of the session was previously said by the client in the session and is "
+{outcome}
+Only ask this question.
+"""
 
 }
 
