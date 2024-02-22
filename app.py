@@ -1,9 +1,10 @@
 from chains import General_Chain, General2_Chain, Bullet_maker, YesNo_Bot, QuestionMaker, Acknowledge_Chain
 from dotenv import load_dotenv
-from question_like import question_list_second_phase, question_list_third_phase, words_count, question_parser
+from question_like import question_list_first_phase, more_info_questions, question_list_second_phase, question_list_third_phase, words_count, question_parser
 from templates import get_bullet_template_second, get_general2_template, get_general_template, get_bullet_template, def_bot_template,get_aknowledge_template, question_maker_bot_template
 from llms import gpt3, gpt4
 import json
+from time import sleep
 
 load_dotenv()
 general_2_bot = General2_Chain(llm= gpt4(), template= get_general2_template())
@@ -162,7 +163,7 @@ def run():
                 conversation_state = json.load(file)
         except FileNotFoundError:
             conversation_state = {
-                'status': 2,
+                'status': 1,
                 'conversation': [],
                 'last_ai_question': '',
                 'user_input': '',
@@ -178,8 +179,27 @@ def run():
         user_input = conversation_state["user_input"]
         outcome = conversation_state.get("outcome", "")
  
-
-        
+        if status == 1:
+            for question in question_list_first_phase:
+                print(question)
+                sleep(4)
+            answer = input("You: ")
+            if answer == "yes".lower():
+                status = 2
+                flow_counter = -1
+            elif answer == "no".lower():
+                exit()
+            elif answer == "info".lower():
+                for info in more_info_questions:
+                    print(info)
+                    sleep(4)
+                answer = input("You: ")
+                if answer == "yes".lower():
+                    status = 2
+                    flow_counter = -1
+                elif answer == "no".lower():
+                    exit()
+                            
         if status == 2:
             if flow_counter == -1:
                 # print("IN -1")

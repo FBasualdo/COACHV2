@@ -1,3 +1,18 @@
+question_list_first_phase = [
+    'Hi, I am Joana, your AI powered Coach!',
+    'I am here to help you gain perspective on what troubles your mind and gain clarity on your circunstances.',
+    'You can check my limitations and and general conditions in www.unnic.ai',
+    'Do you want to start the session? yes/no/info',
+
+]
+more_info_questions = [
+    'The first thing you shoud know is that, due to my AI capabilities, part of your inputs may be shared with Open AI, but in a completely anonymus way. Nevertheless avoid sharing any sensitive data such as name, birthdays or health data.',
+    'As an  AI coach, my responses are based on pre-existing data and algorithms, and may not always be tailored to individual circumstances. I encourage you to use your own judgment and consider multiple perspectives. My responses are based on general coaching principles and may not address your circumstances. It is advisable to consult with an ICF-certified coach for tailored support. This is not a substitute for professional coaching, therapy, or counseling.',
+    'As a client it is your responsibility to make informed decisions and take appropriate actions based on the coaching provided. I, as AI coach cannot be held liable for any outcomes resulting from your choices.',
+    'If you want more detailed information click on  www.unnic.ai',
+    'Do you want us to start the session? yes/no'
+]
+
 question_list_second_phase = {
     'What is in your mind today?': '',
     'What makes [x] important to you?' : 
@@ -78,7 +93,7 @@ Extract the outcome the client wants and return it.  Follow this guidelines:
 1. You should only return the outcome
 2. Maximum of 4 words
 """,
-"Just to confirm, the outcome that you want to achieve/explore in this session is {outcome}? y/n":"",
+"Just to confirm, the outcome that you want to achieve/explore in this session is {outcome}? y/n":"", #SOLO UNO ACHIEVE O EXPLORE
 "Ok, thanks for clarifying it. So..." : "",
 
 "Regarding [outcome], where are you in way to achieve that?":
@@ -104,6 +119,7 @@ You have to ask the following question:
 "What have you done so far? "
 The outcome of the session was previously said by the client in the session and is "
 {outcome}
+JUST ASK THIS QUESTION
 """,
 "If everything was exactly how you wanted it to be, what would you be experiencing?":
 """
@@ -112,6 +128,7 @@ You have to ask the following question:
 The outcome of the session was previously said by the client in the session and is "
 {outcome}
 Only ask this question.
+DO NOT ADD ANYTHING ELSE
 """
 
 }
