@@ -119,7 +119,6 @@ You have to ask the following question:
 "What have you done so far? "
 The outcome of the session was previously said by the client in the session and is "
 {outcome}
-JUST ASK THIS QUESTION
 """,
 "If everything was exactly how you wanted it to be, what would you be experiencing?":
 """
@@ -128,7 +127,6 @@ You have to ask the following question:
 The outcome of the session was previously said by the client in the session and is "
 {outcome}
 Only ask this question.
-DO NOT ADD ANYTHING ELSE
 """
 
 }
