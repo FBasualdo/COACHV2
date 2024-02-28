@@ -128,6 +128,55 @@ The outcome of the session was previously said by the client in the session and 
 {outcome}
 Only ask this question.
 """
+}
+
+question_list_fourth_phase_list = [
+"Thank you for sharing this with me.",
+"We have been talking for a few minutes, I am wondering...",
+"From what you have said so far, what new understanding or insight is emerging now?",
+"What is the relationship from this [insight] and the [outcome]?",
+"""You ONLY have to ask the following question: 
+What is the relationship from this 
+{insight}
+ and the 
+{outcome}
+? 
+Only ask this question."""
+"How can you apply this learning to move forward?",
+"What is in your way to get there?",
+"What are the resources you need to apply?",
+"What mindset do you need to have?",
+"Who can support you?",
+"What are you going to ask for?",
+"We are close to the end of the conversation, what has been your biggest takeaway?",
+"I am impressed with the deep reflections you have been able to make during this conversation... What have you learnt about yourself?",
+"I want to acknowledge the effort you have made sharing and reflecting with me today.",
+"Is there anything that you want to say before we end the session?",
+"""It has been an honour to be your coach today. Thank you for sharing with me. 
+Before we finnish I would like to ask you two questions.
+From 1 to 10 (10 being the best), how likely are you to recommend this AI coaching session?
+""",
+"Thanks, could I also ask you how can we make it better?",
+"Thank you for all, see you next time!"]
+
+question_list_fourth_phase = {
+"Thank you for sharing this with me.": "",
+"We have been talking for a few minutes, I am wondering...": "",
+"From what you have said so far, what new understanding or insight is emerging now?": "",
+"What is the relationship from this [insight] and the [outcome]?": """
+You ONLY have to ask the following question: 
+What is the relationship from this {insight} and the {outcome}? """,
+"How can you apply this learning to move forward?": "",
+"What is in your way to get there?": "", 
+"What are the resources you need to apply?": "",
+"What mindset do you need to have?": "",
+"Who can support you?" : "",
+"What are you going to ask for?":"",
+"We are close to the end of the conversation, what has been your biggest takeaway?": "",
+"I am impressed with the deep reflections you have been able to make during this conversation... What have you learnt about yourself? """: "",
+"I want to acknowledge the effort you have made sharing and reflecting with me today.": "",
+"Is there anything that you want to say before we end the session?": "",
+
 
 }
 
